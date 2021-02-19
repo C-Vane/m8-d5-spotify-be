@@ -203,4 +203,20 @@ usersRouter.delete("/me", authorize, async (req, res, next) => {
   }
 });
 
+usersRouter.post("/liked/:id", authorize, async (req, res, next) => {
+  try {
+    await UserSchema.findOneAndUpdate({ _id: req.user._id, }, {
+      $pull: { playList: req.params.id }
+    })
+    const modifiedUser = req.body.add ? await UserSchema.findOneAndUpdate({ _id: req.user._id }, {
+      $push: { playList: req.params.id }
+    }) : await UserSchema.findOne({ _id: req.user._id })
+    res.status(201).send(modifiedUser);
+  } catch (error) {
+    next(error);
+  }
+})
+
+
+
 module.exports = usersRouter;
