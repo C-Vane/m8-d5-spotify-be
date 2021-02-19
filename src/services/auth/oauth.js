@@ -49,15 +49,17 @@ passport.use(
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
       callbackURL: process.env.FACEBOOK_REDIRECT,
+      profileFields: ["email", "first_name", "last_name", "gender", "link"],
     },
     async (request, accessToken, refreshToken, profile, next) => {
       console.log(profile, "facebook");
       const newUser = {
         facebookId: profile.id,
-        name: profile.displayName.split(" ")[0],
-        surname: profile.displayName.split(" ")[1],
+        name: profile.first_name,
+        surname: profile.last_name,
+        gender: profile.gender,
         username: profile.displayName,
-        email: profile.displayName,
+        email: profile.email,
         img: "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg",
       };
 

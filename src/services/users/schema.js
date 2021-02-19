@@ -23,6 +23,9 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    gender: {
+      type: String,
+    },
     username: {
       type: String,
       require: true,
@@ -30,8 +33,8 @@ const UserSchema = new Schema(
     },
     birthday: {
       type: String,
-      require: true,
     },
+
     facebookId: {
       type: String,
     },

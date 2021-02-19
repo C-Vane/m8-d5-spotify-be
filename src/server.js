@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 
 const usersRouter = require("./services/users/index");
 
+const musicRouter = require("./services/music");
+
 const { notFoundHandler, forbiddenHandler, badRequestHandler, genericErrorHandler } = require("./errorHandlers");
 
 const passport = require("passport");
@@ -43,6 +45,7 @@ server.use(cors(corsOptions));
 server.use(passport.initialize());
 
 server.use("/users", usersRouter);
+server.use("/music", musicRouter);
 // ERROR HANDLERS MIDDLEWARES
 
 server.use(badRequestHandler);

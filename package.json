@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/C-Vane/m8-d5-spotify-be#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.23.0",
     "cookie-parser": "^1.4.5",
