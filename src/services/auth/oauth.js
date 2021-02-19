@@ -52,14 +52,13 @@ passport.use(
       profileFields: ["email", "first_name", "last_name", "gender", "link"],
     },
     async (request, accessToken, refreshToken, profile, next) => {
-      console.log(profile, "facebook");
       const newUser = {
         facebookId: profile.id,
-        name: profile.first_name,
-        surname: profile.last_name,
+        name: profile.name.givenName,
+        surname: profile.name.familyName,
         gender: profile.gender,
         username: profile.displayName,
-        email: profile.email,
+        email: profile.emails[0].value || "",
         img: "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg",
       };
 
