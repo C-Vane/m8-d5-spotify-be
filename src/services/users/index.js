@@ -24,7 +24,7 @@ usersRouter.get("/spotifyRedirect", passport.authenticate("spotify"), async (req
       path: "/users/refreshToken",
     });
 
-    res.status(200).redirect(process.env.FE_URL);
+    res.status(200).redirect(process.env.FE_URL + "/home");
   } catch (error) {
     next(error);
   }
@@ -43,7 +43,7 @@ usersRouter.get("/facebookRedirect", passport.authenticate("facebook"), async (r
       path: "/users/refreshToken",
     });
 
-    res.status(200).redirect(process.env.FE_URL);
+    res.status(200).redirect(process.env.FE_URL + "/home");
   } catch (error) {
     next(error);
   }
@@ -203,4 +203,33 @@ usersRouter.delete("/me", authorize, async (req, res, next) => {
   }
 });
 
+usersRouter.post("/liked/:id", authorize, async (req, res, next) => {
+  try {
+    await UserSchema.findbyIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $pull: { playList: req.params.id },
+      },
+      {
+        new: true,
+        useFindAndModify: false,
+      }
+    );
+    const modifiedUser = req.body.add
+      ? await UserSchema.findbyIdAndUpdate(
+          { _id: req.user._id },
+          {
+            $push: { playList: req.params.id },
+          },
+          {
+            new: true,
+            useFindAndModify: false,
+          }
+        )
+      : await UserSchema.findOne({ _id: req.user._id });
+    res.status(201).send(modifiedUser);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = usersRouter;

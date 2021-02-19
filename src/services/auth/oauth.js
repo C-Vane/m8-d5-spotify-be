@@ -13,7 +13,6 @@ passport.use(
       callbackURL: process.env.SPOTIFY_REDIRECT,
     },
     async (accessToken, refreshToken, expires_in, profile, next) => {
-      console.log(profile);
       const newUser = {
         spotifyId: profile.id,
         name: profile.displayName.split(" ")[0],

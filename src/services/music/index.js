@@ -22,17 +22,17 @@ const fetchMusic = async (endpoint, next) => {
     let music = [];
     const tracks = response.data.tracks;
     const playlist = response.data.playlists;
-
-    if (tracks) {
+    console.log(response);
+    if (tracks && endpoint !== "/chart" && !endpoint.includes("album")) {
       await tracks.data.forEach((track) => {
         !music.some((uniqueTrack) => uniqueTrack.album.id === track.album.id) && music.push(track);
       });
-    } else if (tracks) {
-      music = playlists.data;
+      return music;
+    } else if (playlist) {
+      return playlist.data;
     } else {
-      music = response.data;
+      return response.data;
     }
-    return music;
   } catch (error) {
     next(error);
   }
