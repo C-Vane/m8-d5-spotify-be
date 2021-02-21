@@ -205,21 +205,21 @@ usersRouter.delete("/me", authorize, async (req, res, next) => {
 
 usersRouter.post("/liked/:id", authorize, async (req, res, next) => {
   try {
-    await UserSchema.findbyIdAndUpdate(
+    await UserSchema.findOneAndUpdate(
       { _id: req.user._id },
       {
-        $pull: { playList: req.params.id },
+        $pull: { playlist: req.params.id },
       },
       {
         new: true,
         useFindAndModify: false,
       }
     );
-    const modifiedUser = req.body.add
-      ? await UserSchema.findbyIdAndUpdate(
+    const modifiedUser = req.query.add
+      ? await UserSchema.findOneAndUpdate(
           { _id: req.user._id },
           {
-            $push: { playList: req.params.id },
+            $push: { playlist: req.params.id },
           },
           {
             new: true,
